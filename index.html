@@ -2,54 +2,391 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Notas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Programa Asamblea 2026</title>
+    
+    <link rel="manifest" href="manifest.json">
+    
     <style>
-        body {
-            margin: 0;
-            background: #121212; /* Fondo oscuro nativo para pantalla OLED */
-            font-family: system-ui, sans-serif;
-            padding: 15px;
+        /* Variables por defecto (Tema Oscuro Slate) */
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
         }
+
+        /* Variaciones de Temas */
+        body.theme-amoled {
+            --bg: #000000;
+            --card: #121212;
+            --accent: #a855f7;
+            --text: #ffffff;
+            --text-muted: #71717a;
+        }
+
+        body.theme-cyberpunk {
+            --bg: #1a0b2e;
+            --card: #2c124d;
+            --accent: #f43f5e;
+            --text: #ccff00;
+            --text-muted: #a855f7;
+        }
+
+        body.theme-forest {
+            --bg: #0f1711;
+            --card: #1c2b1f;
+            --accent: #4ade80;
+            --text: #f0fdf4;
+            --text-muted: #74a17c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Selector de Días (Pestañas) */
+        .tabs-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            flex: 1;
+            background-color: var(--card);
+            color: var(--text-muted);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 8px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .tab.active {
+            background-color: var(--accent);
+            color: #000;
+        }
+
+        main {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background-color: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 6px;
+        }
+
+        /* Lista del Programa */
+        .program-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .program-item {
+            display: flex;
+            gap: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .program-time {
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 45px;
+        }
+
+        .program-desc {
+            color: var(--text);
+        }
+
         textarea {
             width: 100%;
-            height: 85vh;
-            background: transparent;
-            border: none;
-            color: #e3e3e3;
-            font-size: 18px;
-            line-height: 1.5;
+            height: 140px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            padding: 12px;
+            font-size: 1rem;
             resize: none;
             outline: none;
-            padding: 0;
+            font-family: inherit;
         }
+
         .status {
-            color: #5f6368;
-            font-size: 12px;
             text-align: right;
-            margin-top: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Configuración inferior */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .theme-btn {
+            padding: 8px 4px;
+            font-size: 0.75rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: #334155;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .btn-clear {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid #ef4444;
+            padding: 10px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
 
-    <textarea id="box" placeholder="Escribe aquí... Todo se guarda en tu Pixel."></textarea>
-    <div class="status" id="indicator">Listo</div>
+    <header>
+        <h1>Felices para siempre</h1>
+        <p>Asamblea 2026 • Programa Personal</p>
+    </header>
+
+    <div class="tabs-container">
+        <div class="tab active" onclick="switchDay('viernes')">Viernes</div>
+        <div class="tab" onclick="switchDay('sabado')">Sábado</div>
+        <div class="tab" onclick="switchDay('domingo')">Domingo</div>
+    </div>
+
+    <main>
+        <div class="card">
+            <h2 id="dayTitle">Viernes</h2>
+            <div class="program-list" id="programSchedule">
+                </div>
+        </div>
+
+        <div class="card">
+            <h2 id="notesTitle">📝 Mis Notas (Viernes)</h2>
+            <textarea id="editor" placeholder="Escribe tus apuntes o textos de hoy aquí..."></textarea>
+            <div class="status" id="saveStatus">Guardado automáticamente en tu Pixel</div>
+            <button class="btn-clear" onclick="clearCurrentNotes()">Borrar notas de este día</button>
+        </div>
+
+        <div class="card">
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">Tema de Pantalla:</p>
+            <div class="theme-grid">
+                <button class="theme-btn" style="background:#0f172a;" onclick="setTheme('slate')">Slate</button>
+                <button class="theme-btn" style="background:#000000; color:#a855f7;" onclick="setTheme('amoled')">OLED</button>
+                <button class="theme-btn" style="background:#1a0b2e; color:#ccff00;" onclick="setTheme('cyber')">Cyber</button>
+                <button class="theme-btn" style="background:#0f1711; color:#4ade80;" onclick="setTheme('forest')">Forest</button>
+            </div>
+        </div>
+    </main>
 
     <script>
-        const box = document.getElementById('box');
-        const ind = document.getElementById('indicator');
+        // Datos del Folleto
+        const programData = {
+            viernes: {
+                title: 'Viernes: "Felices los que reconocen sus necesidades espirituales" (Mat. 5:3)',
+                schedule: [
+                    { time: '9:20', desc: 'Video musical' },
+                    { time: '9:30', desc: 'Canción 160 y oración' },
+                    { time: '9:40', desc: 'DISCURSO DEL PRESIDENTE: ¿Es realista la idea de ser felices para siempre? (Sal. 16:11)' },
+                    { time: '10:10', desc: 'PRODUCCIÓN AUDIOVISUAL: Las buenas noticias según Jesús: Episodio 4 "Para eso he venido"' },
+                    { time: '11:05', desc: 'Canción 17 y anuncios' },
+                    { time: '11:15', desc: 'SERIE DE DISCURSOS: ¡Las profecías sobre el Mesías se cumplieron! (Enfermedades, No discutirá, Comparaciones)' },
+                    { time: '12:10', desc: 'Canción 14 e intermedio' },
+                    { time: '1:35', desc: 'Video musical' },
+                    { time: '1:45', desc: 'Canción 23' },
+                    { time: '1:50', desc: '¿Qué enseñó Jesús sobre el sábado? (Mat. 12:1-14)' },
+                    { time: '2:10', desc: 'SERIE DE DISCURSOS: Imitemos a los que sirvieron a Jesús (Los apóstoles, Muchas mujeres)' },
+                    { time: '2:50', desc: 'Canción 76 y anuncios' },
+                    { time: '3:00', desc: '"Felices los que lavan sus túnicas largas" (Apoc. 7:9, 10)' },
+                    { time: '3:30', desc: 'Canción 155 y oración de conclusión' }
+                ]
+            },
+            sabado: {
+                title: 'Sábado: "Hay más felicidad en dar que en recibir" (Hech. 20:35)',
+                schedule: [
+                    { time: '9:20', desc: 'Video musical' },
+                    { time: '9:30', desc: 'Canción 111 y oración' },
+                    { time: '9:40', desc: '"Él tomó la palabra y se puso a enseñarles" (Mat. 5:1, 2)' },
+                    { time: '9:50', desc: 'PRODUCCIÓN AUDIOVISUAL: Episodio 5 - Impactados con su manera de enseñar' },
+                    { time: '10:25', desc: 'Canción 89 y anuncios' },
+                    { time: '10:35', desc: 'Cuatro enemigos de la felicidad (Luc. 6:24-26)' },
+                    { time: '10:50', desc: '¿Puede ver el principio detrás de la ley? (Mat. 5:17-48)' },
+                    { time: '11:15', desc: 'SERIE DE DISCURSOS: Lecciones sobre la tierra en la que vivió Jesús (La sal, la luz, plantas y animales)' },
+                    { time: '11:40', desc: 'DISCURSO DE BAUTISMO: "Tu Padre, que mira en secreto, te lo pagará" (Mat. 6:6)' },
+                    { time: '12:10', desc: 'Canción 51 e intermedio' },
+                    { time: '1:35', desc: 'Video musical' },
+                    { time: '1:45', desc: 'Canción 125' },
+                    { time: '1:50', desc: 'SERIE DE DISCURSOS: Felices... (Las 9 de Mateo 5:3-12)' },
+                    { time: '3:20', desc: 'Canción 81 y anuncios' },
+                    { time: '3:30', desc: '¿Por qué se angustian? (Mat. 6:19-33)' },
+                    { time: '3:55', desc: '"Entren por la puerta angosta" (Mat. 7:1-5, 12-14)' },
+                    { time: '4:30', desc: 'Canción 21 y oración de conclusión' }
+                ]
+            },
+            domingo: {
+                title: 'Domingo: "Felices los ojos de ustedes, que ven, y sus oídos, que oyen" (Mat. 13:16)',
+                schedule: [
+                    { time: '9:20', desc: 'Video musical' },
+                    { time: '9:30', desc: 'Canción 68 y oración' },
+                    { time: '9:40', desc: 'SERIE DE DISCURSOS: Lecciones de las comparaciones (Terrenos, Trigo y mala hierba, Mostaza, Levadura, Red)' },
+                    { time: '11:00', desc: 'Canción 64 y anuncios' },
+                    { time: '11:10', desc: 'DISCURSO PÚBLICO: ¿Ha encontrado el tesoro? (Mat. 13:44-46)' },
+                    { time: '11:40', desc: 'Resumen de La Atalaya' },
+                    { time: '12:10', desc: 'Canción 140 e intermedio' },
+                    { time: '1:35', desc: 'Video musical' },
+                    { time: '1:45', desc: 'Canción 108' },
+                    { time: '1:50', desc: 'PRODUCCIÓN AUDIOVISUAL: Episodio 6 - "¿Eres tú el que tiene que venir?"' },
+                    { time: '2:35', desc: 'Canción 120 y anuncios' },
+                    { time: '2:45', desc: '¿Qué hemos aprendido? "Felices los ojos de ustedes..."' },
+                    { time: '3:55', desc: 'Canción 163 y oración de conclusión' }
+                ]
+            }
+        };
 
-        // Carga lo guardado al abrir
-        box.value = localStorage.getItem('mi_nota_secreta') || '';
+        const editor = document.getElementById('editor');
+        const status = document.getElementById('saveStatus');
+        const dayTitle = document.getElementById('dayTitle');
+        const notesTitle = document.getElementById('notesTitle');
+        const programSchedule = document.getElementById('programSchedule');
+        
+        let currentDay = 'viernes';
 
-        // Guarda al instante con cada letra que escribes
-        box.addEventListener('input', () => {
-            localStorage.setItem('mi_nota_secreta', box.value);
-            ind.textContent = "Guardado";
-            setTimeout(() => { ind.textContent = "Listo"; }, 800);
+        // Renderizar el listado de discursos en pantalla
+        function renderSchedule(day) {
+            programSchedule.innerHTML = '';
+            programData[day].schedule.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'program-item';
+                div.innerHTML = `<span class="program-time">${item.time}</span><span class="program-desc">${item.desc}</span>`;
+                programSchedule.appendChild(div);
+            });
+        }
+
+        // Intercambiar de día y cargar notas asociadas
+        function switchDay(day) {
+            // Guardar notas actuales antes de salir
+            localStorage.setItem(`assembly_notes_2026_${currentDay}`, editor.value);
+
+            currentDay = day;
+            
+            // UI Pestañas
+            document.querySelectorAll('.tab').forEach((tab, index) => {
+                const days = ['viernes', 'sabado', 'domingo'];
+                tab.classList.toggle('active', days[index] === day);
+            });
+
+            // Actualizar Títulos e interfaz
+            dayTitle.textContent = day.charAt(0).toUpperCase() + day.slice(1);
+            notesTitle.textContent = `📝 Mis Notas (${day.charAt(0).toUpperCase() + day.slice(1)})`;
+            
+            renderSchedule(day);
+            
+            // Cargar notas del nuevo día seleccionado
+            editor.value = localStorage.getItem(`assembly_notes_2026_${day}`) || '';
+            status.textContent = "Día seleccionado";
+        }
+
+        // Auto-guardado al escribir
+        editor.addEventListener('input', () => {
+            localStorage.setItem(`assembly_notes_2026_${currentDay}`, editor.value);
+            status.textContent = "Guardando...";
+            setTimeout(() => { status.textContent = "Guardado automáticamente en tu Pixel"; }, 400);
+        });
+
+        function clearCurrentNotes() {
+            if (confirm(`¿Eliminar las notas del día ${currentDay}?`)) {
+                editor.value = '';
+                localStorage.removeItem(`assembly_notes_2026_${currentDay}`);
+                status.textContent = "Notas eliminadas";
+            }
+        }
+
+        // Temas visuales
+        function setTheme(theme) {
+            document.body.className = '';
+            if (theme === 'amoled') document.body.classList.add('theme-amoled');
+            if (theme === 'cyber') document.body.classList.add('theme-cyberpunk');
+            if (theme === 'forest') document.body.classList.add('theme-forest');
+            
+            localStorage.setItem('assembly_theme_choice', theme);
+        }
+
+        // Carga inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            setTheme(localStorage.getItem('assembly_theme_choice') || 'slate');
+            renderSchedule('viernes');
+            editor.value = localStorage.getItem('assembly_notes_2026_viernes') || '';
         });
     </script>
-
 </body>
 </html>
