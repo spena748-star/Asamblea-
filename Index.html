@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Felices Para Siempre - Asamblea 2026</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  min-height: 100vh;
+  color: #1b5e20;
+  overflow-x: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.header h1 { font-size: 1.6rem; font-weight: 300; letter-spacing: 2px; }
+.header h2 { font-size: 0.9rem; opacity: 0.9; margin-top: 5px; font-weight: 400; }
+
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 80px;
+  z-index: 99;
+  flex-wrap: wrap;
+}
+.nav-tab {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: white;
+  color: #2e7d32;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.nav-tab.active {
+  background: #2e7d32;
+  color: white;
+  transform: scale(1.05);
+}
+.nav-tab:hover { transform: translateY(-2px); }
+
+.day-section { display: none; padding: 15px; max-width: 800px; margin: 0 auto; }
+.day-section.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.day-header {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.day-header h3 { font-size: 1.8rem; color: #2e7d32; margin-bottom: 8px; }
+.day-header .verse { font-style: italic; color: #666; font-size: 0.95rem; }
+.day-header .ref { color: #888; font-size: 0.8rem; }
+
+.session {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+.session-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #ff6f00;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.schedule-item {
+  display: flex;
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  align-items: flex-start;
+  position: relative;
+}
+.schedule-item:last-child { border-bottom: none; }
+.time {
+  min-width: 50px;
+  font-weight: 700;
+  color: #2e7d32;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+.content { flex: 1; }
+.content-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.content-sub { font-size: 0.8rem; color: #888; margin-top: 4px; }
+.content-ref { font-size: 0.75rem; color: #aaa; margin-top: 2px; }
+
+.series-list { margin-top: 8px; padding-left: 15px; }
+.series-item {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.series-item .ref { color: #999; font-size: 0.75rem; }
+
+.note-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.note-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-voice { background: #e3f2fd; color: #1565c0; }
+.btn-write { background: #fff3e0; color: #ef6c00; }
+.btn-view { background: #e8f5e9; color: #2e7d32; }
+.note-btn:hover { transform: scale(1.05); }
+.note-btn.has-notes { box-shadow: 0 0 0 2px #4caf50; }
+.note-count {
+  background: #4caf50;
+  color: white;
+  border-radius: 50%;
+  width: 18px; height: 18px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-section {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+.info-section h4 {
+  color: #2e7d32;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.info-section p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ====== NOTEBOOK OVERLAY ====== */
+.notebook-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.88);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px;
+  overflow-y: auto;
+}
+.notebook-overlay.active { display: flex; }
+
+.notebook-header {
+  color: white;
+  margin-bottom: 12px;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+}
+.notebook-header h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.notebook-header .topic { font-size: 0.85rem; opacity: 0.8; }
+
+.tab-mode {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  justify-content: center;
+}
+.mode-btn {
+  padding: 8px 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  background: transparent;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-btn.active {
+  background: white;
+  color: #333;
+  border-color: white;
+}
+
+/* ====== VOICE PANEL ====== */
+#voicePanel {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.voice-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.voice-indicator {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #757575;
+  transition: all 0.3s;
+}
+.voice-indicator.listening { background: #f44336; animation: blink 1s infinite; }
+.voice-indicator.processing { background: #ff9800; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.voice-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.voice-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.voice-btn:hover { transform: scale(1.05); }
+.voice-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-record { background: #f44336; color: white; }
+.btn-record.recording { background: #b71c1c; animation: pulse-rec 1.2s infinite; }
+@keyframes pulse-rec { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+.btn-pause { background: #ff9800; color: white; }
+.btn-copy { background: #2196f3; color: white; }
+.btn-clear-txt { background: #757575; color: white; }
+
+.voice-text-container {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  margin-bottom: 12px;
+  min-height: 120px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.voice-text-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: #f5f5f5;
+  border-radius: 12px 12px 0 0;
+  font-size: 0.8rem;
+  color: #666;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.voice-text-area {
+  padding: 15px;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+  min-height: 80px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.voice-text-area .interim {
+  color: #9e9e9e;
+  font-style: italic;
+  border-bottom: 1px dashed #bdbdbd;
+}
+.voice-text-area .final { color: #333; }
+
+.voice-text-placeholder {
+  color: #bdbdbd;
+  font-style: italic;
+  text-align: center;
+  padding: 30px;
+}
+
+.word-count {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* ====== WRITE PANEL ====== */
+#writePanel {
+  width: 100%;
+  max-width: 800px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.write-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.color-picker-inline {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.color-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.color-dot.active { border-color: white; transform: scale(1.2); box-shadow: 0 0 8px rgba(255,255,255,0.5); }
+
+.brush-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 0.85rem;
+}
+.brush-control input { width: 70px; }
+
+.tool-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tool-btn:hover { transform: scale(1.05); }
+.btn-eraser { background: #757575; color: white; }
+.btn-undo { background: #9c27b0; color: white; }
+
+#writingCanvas {
+  background: #fffef0;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  touch-action: none;
+  cursor: crosshair;
+  max-width: 100%;
+}
+
+.canvas-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.action-btn:hover { transform: scale(1.05); opacity: 0.9; }
+.btn-clear { background: #ff5252; color: white; }
+.btn-save { background: #4caf50; color: white; }
+.btn-close { background: #757575; color: white; }
+
+/* ====== SIDEBAR ====== */
+.notes-sidebar {
+  position: fixed;
+  top: 0; right: -360px;
+  width: 360px; height: 100%;
+  background: white;
+  z-index: 2000;
+  transition: right 0.3s ease;
+  box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+}
+.notes-sidebar.active { right: 0; }
+.notes-sidebar-header {
+  background: linear-gradient(135deg, #2e7d32, #1b5e20);
+  color: white;
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notes-sidebar-header h3 { font-size: 1.05rem; }
+.close-sidebar {
+  background: none; border: none; color: white;
+  font-size: 1.4rem; cursor: pointer;
+}
+.notes-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.note-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #4caf50;
+  transition: all 0.2s;
+}
+.note-card:hover { transform: translateX(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.note-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.note-card-time { font-size: 0.7rem; color: #888; }
+.note-card-topic { font-size: 0.75rem; color: #2e7d32; font-weight: 600; }
+.note-card-text { font-size: 0.85rem; color: #333; line-height: 1.5; margin-bottom: 6px; word-break: break-word; }
+.note-card-img { max-width: 100%; border-radius: 6px; margin-top: 6px; }
+.note-card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.card-btn {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.card-btn:hover { opacity: 0.8; }
+.btn-delete { background: #ffebee; color: #c62828; }
+
+.empty-state {
+  text-align: center;
+  padding: 30px 15px;
+  color: #aaa;
+}
+.empty-state-icon { font-size: 2.5rem; margin-bottom: 8px; }
+
+/* ====== FLOATING BUTTONS ====== */
+.fab-menu {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+.fab {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+.fab:hover { transform: scale(1.1); }
+.fab-notes { background: linear-gradient(135deg, #2e7d32, #1b5e20); width: 44px; height: 44px; font-size: 1.1rem; position: relative; }
+.fab-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  background: #f44336;
+  color: white;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 1999;
+  display: none;
+}
+.sidebar-overlay.active { display: block; }
+
+@media (max-width: 600px) {
+  .header h1 { font-size: 1.2rem; }
+  .nav-tab { padding: 8px 14px; font-size: 0.85rem; }
+  .time { min-width: 45px; font-size: 0.85rem; }
+  .content-title { font-size: 0.9rem; }
+  .notes-sidebar { width: 100%; right: -100%; }
+  .fab { width: 48px; height: 48px; font-size: 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>FELICES PARA SIEMPRE</h1>
+  <h2>Asamblea del 2026 de los Testigos de Jehová</h2>
+</div>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showDay('viernes')">Viernes</button>
+  <button class="nav-tab" onclick="showDay('sabado')">Sábado</button>
+  <button class="nav-tab" onclick="showDay('domingo')">Domingo</button>
+  <button class="nav-tab" onclick="showDay('info')">Info</button>
+</div>
+
+<!-- VIERNES -->
+<div id="viernes" class="day-section active">
+  <div class="day-header">
+    <h3>VIERNES</h3>
+    <div class="verse">"Felices los que reconocen sus necesidades espirituales"</div>
+    <div class="ref">Mateo 5:3</div>
+  </div>
+
+  <div class="session">
+    <div class="session-title">Mañana</div>
+    <div class="schedule-item" data-topic="Video musical - Viernes Mañana" data-time="9:20">
+      <div class="time">9:20</div>
+      <div class="content">
+        <div class="content-title">Video musical</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Canción 160 y oración - Viernes Mañana" data-time="9:30">
+      <div class="time">9:30</div>
+      <div class="content">
+        <div class="content-title">Canción 160 y oración</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Discurso del Presidente: ¿Es realista la idea de ser felices para siempre?" data-time="9:40">
+      <div class="time">9:40</div>
+      <div class="content">
+        <div class="content-title">Discurso del Presidente de la Asamblea: ¿Es realista la idea de ser felices para siempre?</div>
+        <div class="content-ref">Salmo 16:11; 100:2</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Producción Audiovisual: Episodio 4 - Para eso he venido" data-time="10:10">
+      <div class="time">10:10</div>
+      <div class="content">
+        <div class="content-title">Producción Audiovisual: Las buenas noticias según Jesús: Episodio 4 "Para eso he venido"</div>
+        <div class="content-ref">Mateo 4:23-25; 8:1-4, 14-17; 9:1-17; 12:1-21; Marcos 1:21-3:19; Lucas 4:31-44; 5:12-6:16; Juan 5:1-47</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Canción 17 y anuncios - Viernes Mañana" data-time="11:05">
+      <div class="time">11:05</div>
+      <div class="content">
+        <div class="content-title">Canción 17 y anuncios</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Serie: Las profecías sobre el Mesías se cumplieron" data-time="11:15">
+      <div class="time">11:15</div>
+      <div class="content">
+        <div class="content-title">Serie de Discursos: ¡Las profecías sobre el Mesías se cumplieron!</div>
+        <div class="series-list">
+          <div class="series-item">• "Él mismo tomó nuestras enfermedades" <span class="ref">(Mateo 8:16, 17; Salmo 32:1, 2; Isaías 53:4, 5)</span></div>
+          <div class="series-item">• "No discutirá" <span class="ref">(Mateo 12:15-21; Isaías 42:1-4)</span></div>
+          <div class="series-item">• "Nunca les hablaba sin utilizar alguna comparación" <span class="ref">(Mateo 13:34, 35; Salmo 78:2)</span></div>
+        </div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Canción 14 e intermedio - Viernes" data-time="12:10">
+      <div class="time">12:10</div>
+      <div class="content">
+        <div class="content-title">Canción 14 e intermedio</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-title">Tarde</div>
+    <div class="schedule-item" data-topic="Video musical - Viernes Tarde" data-time="1:35">
+      <div class="time">1:35</div>
+      <div class="content">
+        <div class="content-title">Video musical</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Canción 23 - Viernes Tarde" data-time="1:45">
+      <div class="time">1:45</div>
+      <div class="content">
+        <div class="content-title">Canción 23</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="¿Qué enseñó Jesús sobre el sábado?" data-time="1:50">
+      <div class="time">1:50</div>
+      <div class="content">
+        <div class="content-title">¿Qué enseñó Jesús sobre el sábado?</div>
+        <div class="content-ref">Mateo 12:1-14; Juan 5:1-17</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Serie: Imitemos a los que sirvieron a Jesús" data-time="2:10">
+      <div class="time">2:10</div>
+      <div class="content">
+        <div class="content-title">Serie de Discursos: Imitemos a los que sirvieron a Jesús</div>
+        <div class="series-list">
+          <div class="series-item">• Los apóstoles <span class="ref">(Lucas 6:13, 15, 16)</span></div>
+          <div class="series-item">• Muchas mujeres <span class="ref">(Mateo 27:55; Marcos 15:40; Lucas 8:1-3)</span></div>
+        </div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Canción 76 y anuncios - Viernes" data-time="2:50">
+      <div class="time">2:50</div>
+      <div class="content">
+        <div class="content-title">Canción 76 y anuncios</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Felices los que lavan sus túnicas largas" data-time="3:00">
+      <div class="time">3:00</div>
+      <div class="content">
+        <div class="content-title">"Felices los que lavan sus túnicas largas"</div>
+        <div class="content-ref">Apocalipsis 7:9, 10, 13-15; 22:14; Juan 5:24-29</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Canción 155 y oración de conclusión - Viernes" data-time="3:30">
+      <div class="time">3:30</div>
+      <div class="content">
+        <div class="content-title">Canción 155 y oración de conclusión</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SABADO -->
+<div id="sabado" class="day-section">
+  <div class="day-header">
+    <h3>SÁBADO</h3>
+    <div class="verse">"Hay más felicidad en dar que en recibir"</div>
+    <div class="ref">Hechos 20:35</div>
+  </div>
+
+  <div class="session">
+    <div class="session-title">Mañana</div>
+    <div class="schedule-item" data-topic="Video musical - Sabado Mañana" data-time="9:20">
+      <div class="time">9:20</div>
+      <div class="content">
+        <div class="content-title">Video musical</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 111 y oracion - Sabado Mañana" data-time="9:30">
+      <div class="time">9:30</div>
+      <div class="content">
+        <div class="content-title">Canción 111 y oración</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="El tomo la palabra y se puso a enseñarles" data-time="9:40">
+      <div class="time">9:40</div>
+      <div class="content">
+        <div class="content-title">"Él tomó la palabra y se puso a enseñarles"</div>
+        <div class="content-ref">Mateo 5:1, 2</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Produccion Audiovisual: Episodio 5 - Impactados con su manera de enseñar" data-time="9:50">
+      <div class="time">9:50</div>
+      <div class="content">
+        <div class="content-title">Producción Audiovisual: Las buenas noticias según Jesús: Episodio 5 "Impactados con su manera de enseñar"</div>
+        <div class="content-ref">Mateo 5:3-7:29; Lucas 6:17-49</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 89 y anuncios - Sabado" data-time="10:25">
+      <div class="time">10:25</div>
+      <div class="content">
+        <div class="content-title">Canción 89 y anuncios</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cuatro enemigos de la felicidad" data-time="10:35">
+      <div class="time">10:35</div>
+      <div class="content">
+        <div class="content-title">Cuatro enemigos de la felicidad</div>
+        <div class="content-ref">Lucas 6:24-26</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Puede ver el principio detras de la ley?" data-time="10:50">
+      <div class="time">10:50</div>
+      <div class="content">
+        <div class="content-title">¿Puede ver el principio detrás de la ley?</div>
+        <div class="content-ref">Mateo 5:17-48</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Serie: Lecciones sobre la tierra en la que vivio Jesus" data-time="11:15">
+      <div class="time">11:15</div>
+      <div class="content">
+        <div class="content-title">Serie de Discursos: Lecciones sobre la tierra en la que vivió Jesús</div>
+        <div class="series-list">
+          <div class="series-item">• La sal y la luz <span class="ref">(Mateo 5:13-16)</span></div>
+          <div class="series-item">• Las plantas y los animales <span class="ref">(Génesis 1:28, 29; Mateo 6:19, 26, 28; 7:6, 10, 15, 16)</span></div>
+        </div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Discurso de Bautismo: Tu Padre, que mira en secreto, te lo pagara" data-time="11:40">
+      <div class="time">11:40</div>
+      <div class="content">
+        <div class="content-title">Discurso de Bautismo: "Tu Padre, que mira en secreto, te lo pagará"</div>
+        <div class="content-ref">Mateo 6:6</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 51 e intermedio - Sabado" data-time="12:10">
+      <div class="time">12:10</div>
+      <div class="content">
+        <div class="content-title">Canción 51 e intermedio</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-title">Tarde</div>
+    <div class="schedule-item" data-topic="Video musical - Sabado Tarde" data-time="1:35">
+      <div class="time">1:35</div>
+      <div class="content">
+        <div class="content-title">Video musical</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 125 - Sabado Tarde" data-time="1:45">
+      <div class="time">1:45</div>
+      <div class="content">
+        <div class="content-title">Canción 125</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Serie: Felices... (Las Bienaventuranzas)" data-time="1:50">
+      <div class="time">1:50</div>
+      <div class="content">
+        <div class="content-title">Serie de Discursos: Felices...</div>
+        <div class="series-list">
+          <div class="series-item">• ... los que reconocen sus necesidades espirituales <span class="ref">(Mateo 5:3)</span></div>
+          <div class="series-item">• ... los que se lamentan <span class="ref">(Mateo 5:4)</span></div>
+          <div class="series-item">• ... los que son apacibles <span class="ref">(Mateo 5:5)</span></div>
+          <div class="series-item">• ... los que tienen hambre y sed de justicia <span class="ref">(Mateo 5:6)</span></div>
+          <div class="series-item">• ... los que son misericordiosos <span class="ref">(Mateo 5:7)</span></div>
+          <div class="series-item">• ... los que tienen un corazon puro <span class="ref">(Mateo 5:8)</span></div>
+          <div class="series-item">• ... los que fomentan la paz <span class="ref">(Mateo 5:9)</span></div>
+          <div class="series-item">• ... los que han sido perseguidos por causa de la justicia <span class="ref">(Mateo 5:10)</span></div>
+          <div class="series-item">• ... ustedes cuando la gente los insulte <span class="ref">(Mateo 5:11, 12)</span></div>
+        </div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 81 y anuncios - Sabado" data-time="3:20">
+      <div class="time">3:20</div>
+      <div class="content">
+        <div class="content-title">Canción 81 y anuncios</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Por que se angustian?" data-time="3:30">
+      <div class="time">3:30</div>
+      <div class="content">
+        <div class="content-title">¿Por qué se angustian?</div>
+        <div class="content-ref">Mateo 6:19-33</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Entren por la puerta angosta" data-time="3:55">
+      <div class="time">3:55</div>
+      <div class="content">
+        <div class="content-title">"Entren por la puerta angosta"</div>
+        <div class="content-ref">Mateo 7:1-5, 12-14, 16-18, 24-27</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 21 y oracion de conclusion - Sabado" data-time="4:30">
+      <div class="time">4:30</div>
+      <div class="content">
+        <div class="content-title">Canción 21 y oración de conclusión</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMINGO -->
+<div id="domingo" class="day-section">
+  <div class="day-header">
+    <h3>DOMINGO</h3>
+    <div class="verse">"Felices los ojos de ustedes, que ven, y sus oidos, que oyen"</div>
+    <div class="ref">Mateo 13:16</div>
+  </div>
+
+  <div class="session">
+    <div class="session-title">Mañana</div>
+    <div class="schedule-item" data-topic="Video musical - Domingo Mañana" data-time="9:20">
+      <div class="time">9:20</div>
+      <div class="content">
+        <div class="content-title">Video musical</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 68 y oracion - Domingo Mañana" data-time="9:30">
+      <div class="time">9:30</div>
+      <div class="content">
+        <div class="content-title">Canción 68 y oración</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Serie: Lecciones de las comparaciones de Jesus" data-time="9:40">
+      <div class="time">9:40</div>
+      <div class="content">
+        <div class="content-title">Serie de Discursos: Lecciones de las comparaciones de Jesús</div>
+        <div class="series-list">
+          <div class="series-item">• Los cuatro tipos de terreno <span class="ref">(Mateo 13:18-23)</span></div>
+          <div class="series-item">• El trigo y la mala hierba <span class="ref">(Mateo 13:24-30)</span></div>
+          <div class="series-item">• El grano de mostaza <span class="ref">(Mateo 13:31, 32)</span></div>
+          <div class="series-item">• La levadura <span class="ref">(Mateo 13:33)</span></div>
+          <div class="series-item">• La red de pesca <span class="ref">(Mateo 13:47-50)</span></div>
+        </div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 64 y anuncios - Domingo" data-time="11:00">
+      <div class="time">11:00</div>
+      <div class="content">
+        <div class="content-title">Canción 64 y anuncios</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Discurso Publico: Ha encontrado el tesoro?" data-time="11:10">
+      <div class="time">11:10</div>
+      <div class="content">
+        <div class="content-title">Discurso Público: ¿Ha encontrado el tesoro?</div>
+        <div class="content-ref">Mateo 13:44-46</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Resumen de La Atalaya" data-time="11:40">
+      <div class="time">11:40</div>
+      <div class="content">
+        <div class="content-title">Resumen de La Atalaya</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 140 e intermedio - Domingo" data-time="12:10">
+      <div class="time">12:10</div>
+      <div class="content">
+        <div class="content-title">Canción 140 e intermedio</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="session">
+    <div class="session-title">Tarde</div>
+    <div class="schedule-item" data-topic="Video musical - Domingo Tarde" data-time="1:35">
+      <div class="time">1:35</div>
+      <div class="content">
+        <div class="content-title">Video musical</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 108 - Domingo Tarde" data-time="1:45">
+      <div class="time">1:45</div>
+      <div class="content">
+        <div class="content-title">Canción 108</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Produccion Audiovisual: Episodio 6 - Eres tu el que tiene que venir?" data-time="1:50">
+      <div class="time">1:50</div>
+      <div class="content">
+        <div class="content-title">Producción Audiovisual: Las buenas noticias según Jesús: Episodio 6 "¿Eres tú el que tiene que venir?"</div>
+        <div class="content-ref">Mateo 8:5-13; 11:2-30; 12:22-13:53; Marcos 3:19-4:34; Lucas 7:1-8:21</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 120 y anuncios - Domingo" data-time="2:35">
+      <div class="time">2:35</div>
+      <div class="content">
+        <div class="content-title">Canción 120 y anuncios</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Que hemos aprendido?" data-time="2:45">
+      <div class="time">2:45</div>
+      <div class="content">
+        <div class="content-title">¿Qué hemos aprendido?</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Felices los ojos de ustedes, que ven" data-time="2:55">
+      <div class="time">2:55</div>
+      <div class="content">
+        <div class="content-title">"Felices los ojos de ustedes, que ven"</div>
+        <div class="content-ref">Mateo 7:1-5; 13:16, 17; Lucas 6:46-49; 10:21; Juan 17:6; Santiago 1:22-25</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+    <div class="schedule-item" data-topic="Cancion 163 y oracion de conclusion - Domingo" data-time="3:45">
+      <div class="time">3:45</div>
+      <div class="content">
+        <div class="content-title">Canción 163 y oración de conclusión</div>
+        <div class="note-actions">
+          <button class="note-btn btn-voice" onclick="openVoiceNote(this)">🎤 Voz</button>
+          <button class="note-btn btn-write" onclick="openWriteNote(this)">✍️ Escribir</button>
+          <button class="note-btn btn-view" onclick="viewNotes(this)">📋 Ver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO -->
+<div id="info" class="day-section">
+  <div class="day-header">
+    <h3>INFORMACION PARA LOS ASISTENTES</h3>
+    <div class="verse">Asamblea del 2026 de los Testigos de Jehová</div>
+    <div class="ref">Preparada por el Cuerpo Gobernante</div>
+  </div>
+
+  <div class="info-section">
+    <h4>Acomodadores</h4>
+    <p>Los acomodadores están para ayudarle. Cooperen con ellos en todo y siga sus instrucciones sobre el estacionamiento, la circulación por los pasillos, la reserva de asientos y otros asuntos.</p>
+  </div>
+  <div class="info-section">
+    <h4>Bautismo</h4>
+    <p>Se reservarán los asientos de la sección principal frente a la plataforma para los candidatos al bautismo, a menos que se indique lo contrario. Los candidatos deberán ocupar esos asientos antes de que comience el discurso de bautismo el sábado por la mañana. Todos deben traer una toalla y un traje de baño decente.</p>
+  </div>
+  <div class="info-section">
+    <h4>Donaciones</h4>
+    <p>Se han realizado muchos gastos a fin de proporcionar asientos adecuados, sistema de sonido y de video, y muchos otros servicios que nos permiten disfrutar de la asamblea y acercarnos más a Jehová. Sus donaciones voluntarias ayudan a costear estos gastos y apoyan la obra mundial. Para su comodidad, por todo el local de la asamblea hay cajas de contribuciones claramente rotuladas. Sin embargo, si es posible, haga sus donaciones por internet, en donate.jw.org.</p>
+  </div>
+  <div class="info-section">
+    <h4>Primeros Auxilios</h4>
+    <p>Tenga en cuenta que este departamento es solo para casos de emergencia.</p>
+  </div>
+  <div class="info-section">
+    <h4>Objetos Perdidos</h4>
+    <p>Todos los artículos extraviados se deben entregar al Departamento de Objetos Perdidos. Si ha perdido algo, vaya a ese lugar para buscar su pertenencia. También se debe llevar a este departamento a los niños que se hayan perdido. Ahora bien, a fin de evitarles estrés innecesario a todos, esté pendiente de sus hijos y manténgalos cerca de usted en todo momento.</p>
+  </div>
+  <div class="info-section">
+    <h4>Asientos</h4>
+    <p>Le rogamos que sea considerado con los demás. Recuerde que puede reservar asientos únicamente para sus familiares directos, para quienes viajan con usted en el automóvil, vivan con usted o sean sus estudiantes de la Biblia. No deje objetos en asientos que no vaya a ocupar.</p>
+  </div>
+  <div class="info-section">
+    <h4>Servicio Voluntario</h4>
+    <p>Si desea ofrecerse como voluntario para ayudar en los trabajos de la asamblea, preséntese en el Departamento de Información y Servicio Voluntario.</p>
+  </div>
+</div>
+
+<!-- NOTEBOOK OVERLAY -->
+<div id="notebookOverlay" class="notebook-overlay">
+  <div class="notebook-header">
+    <h3 id="notebookTitle">Libreta de Notas</h3>
+    <div class="topic" id="notebookTopic"></div>
+  </div>
+
+  <div class="tab-mode">
+    <button class="mode-btn active" id="modeVoice" onclick="switchMode('voice')">🎤 Voz</button>
+    <button class="mode-btn" id="modeWrite" onclick="switchMode('write')">✍️ Escribir</button>
+  </div>
+
+  <!-- VOICE PANEL -->
+  <div id="voicePanel">
+    <div class="voice-status-bar">
+      <div class="voice-indicator" id="voiceIndicator"></div>
+      <span id="voiceStatusText">Listo para grabar</span>
+    </div>
+
+    <div class="voice-toolbar">
+      <button class="voice-btn btn-record" id="recordBtn" onclick="toggleRecording()">🎙️ Grabar</button>
+      <button class="voice-btn btn-pause" id="pauseBtn" onclick="pauseRecording()" disabled>⏸️ Pausar</button>
+      <button class="voice-btn btn-clear-txt" onclick="clearVoiceText()">🗑️ Limpiar</button>
+      <button class="voice-btn btn-copy" onclick="copyVoiceText()">📋 Copiar</button>
+    </div>
+
+    <div class="voice-text-container">
+      <div class="voice-text-header">
+        <span>Transcripción</span>
+        <span class="word-count" id="wordCount">0 palabras</span>
+      </div>
+      <div class="voice-text-area" id="voiceTextArea">
+        <div class="voice-text-placeholder">Toca "Grabar" y empieza a hablar... El texto aparecerá aquí en tiempo real.</div>
+      </div>
+    </div>
+
+    <div class="canvas-actions">
+      <button class="action-btn btn-save" onclick="saveVoiceNote()">💾 Guardar nota</button>
+      <button class="action-btn btn-close" onclick="closeNotebook()">✕ Cerrar</button>
+    </div>
+  </div>
+
+  <!-- WRITE PANEL -->
+  <div id="writePanel">
+    <div class="write-toolbar">
+      <div class="color-picker-inline">
+        <div class="color-dot active" style="background:#1b5e20" data-color="#1b5e20" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#1565c0" data-color="#1565c0" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#c62828" data-color="#c62828" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#ef6c00" data-color="#ef6c00" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#6a1b9a" data-color="#6a1b9a" onclick="setColor(this)"></div>
+        <div class="color-dot" style="background:#333" data-color="#333" onclick="setColor(this)"></div>
+      </div>
+      <div class="brush-control">
+        <span>Trazo:</span>
+        <input type="range" id="brushSize" min="1" max="20" value="3" oninput="updateBrushSize(this.value)">
+      </div>
+      <button class="tool-btn btn-eraser" onclick="setEraser()">🧹 Borrador</button>
+      <button class="tool-btn btn-undo" onclick="undoStroke()">↩️ Deshacer</button>
+    </div>
+    <canvas id="writingCanvas" width="800" height="450"></canvas>
+    <div class="canvas-actions">
+      <button class="action-btn btn-clear" onclick="clearCanvas()">🗑️ Limpiar</button>
+      <button class="action-btn btn-save" onclick="saveCanvasNote()">💾 Guardar dibujo</button>
+      <button class="action-btn btn-close" onclick="closeNotebook()">✕ Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- NOTES SIDEBAR -->
+<div id="notesSidebar" class="notes-sidebar">
+  <div class="notes-sidebar-header">
+    <h3>📓 Mis Notas</h3>
+    <button class="close-sidebar" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="notes-sidebar-content" id="notesList">
+    <div class="empty-state">
+      <div class="empty-state-icon">📓</div>
+      <p>Aun no hay notas guardadas</p>
+      <p style="font-size:0.8rem;margin-top:8px;">Toca 🎤 o ✍️ en cualquier tema para agregar notas</p>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING BUTTONS -->
+<div class="fab-menu">
+  <button class="fab fab-notes" onclick="openSidebar()" title="Ver notas">
+    📓
+    <span class="fab-badge" id="noteBadge" style="display:none">0</span>
+  </button>
+</div>
+
+<script>
+// ==================== NAVIGATION ====================
+function showDay(dayId) {
+  document.querySelectorAll('.day-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(dayId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ==================== NOTES DATA ====================
+const STORAGE_KEY = 'asamblea_notas_2026';
+let allNotes = [];
+let currentTopic = '';
+let currentTime = '';
+let currentMode = 'voice';
+
+function loadNotes() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      allNotes = JSON.parse(saved);
+      updateNoteCounts();
+      updateBadge();
+    }
+  } catch(e) { console.log('localStorage no disponible'); }
+}
+
+function saveNotes() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allNotes));
+    updateNoteCounts();
+    updateBadge();
+  } catch(e) { console.log('localStorage no disponible'); }
+}
+
+function updateNoteCounts() {
+  document.querySelectorAll('.schedule-item').forEach(item => {
+    const topic = item.dataset.topic;
+    const count = allNotes.filter(n => n.topic === topic).length;
+    const viewBtn = item.querySelector('.btn-view');
+    if (count > 0) {
+      viewBtn.classList.add('has-notes');
+      let badge = viewBtn.querySelector('.note-count');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'note-count';
+        viewBtn.appendChild(badge);
+      }
+      badge.textContent = count;
+    } else {
+      viewBtn.classList.remove('has-notes');
+      const badge = viewBtn.querySelector('.note-count');
+      if (badge) badge.remove();
+    }
+  });
+}
+
+function updateBadge() {
+  const badge = document.getElementById('noteBadge');
+  if (allNotes.length > 0) {
+    badge.style.display = 'flex';
+    badge.textContent = allNotes.length;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ==================== NOTEBOOK OVERLAY ====================
+function openVoiceNote(btn) {
+  const item = btn.closest('.schedule-item');
+  currentTopic = item.dataset.topic;
+  currentTime = item.dataset.time;
+  currentMode = 'voice';
+  document.getElementById('notebookTitle').textContent = '🎤 Nota de Voz';
+  document.getElementById('notebookTopic').textContent = currentTopic + ' | ' + currentTime;
+  document.getElementById('voicePanel').style.display = 'flex';
+  document.getElementById('writePanel').style.display = 'none';
+  document.getElementById('modeVoice').classList.add('active');
+  document.getElementById('modeWrite').classList.remove('active');
+  resetVoiceUI();
+  document.getElementById('notebookOverlay').classList.add('active');
+}
+
+function openWriteNote(btn) {
+  const item = btn.closest('.schedule-item');
+  currentTopic = item.dataset.topic;
+  currentTime = item.dataset.time;
+  currentMode = 'write';
+  document.getElementById('notebookTitle').textContent = '✍️ Nota Escrita';
+  document.getElementById('notebookTopic').textContent = currentTopic + ' | ' + currentTime;
+  document.getElementById('voicePanel').style.display = 'none';
+  document.getElementById('writePanel').style.display = 'flex';
+  document.getElementById('modeVoice').classList.remove('active');
+  document.getElementById('modeWrite').classList.add('active');
+  document.getElementById('notebookOverlay').classList.add('active');
+  resizeCanvas();
+  clearCanvas();
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  if (mode === 'voice') {
+    document.getElementById('voicePanel').style.display = 'flex';
+    document.getElementById('writePanel').style.display = 'none';
+    document.getElementById('modeVoice').classList.add('active');
+    document.getElementById('modeWrite').classList.remove('active');
+    document.getElementById('notebookTitle').textContent = '🎤 Nota de Voz';
+  } else {
+    document.getElementById('voicePanel').style.display = 'none';
+    document.getElementById('writePanel').style.display = 'flex';
+    document.getElementById('modeVoice').classList.remove('active');
+    document.getElementById('modeWrite').classList.add('active');
+    document.getElementById('notebookTitle').textContent = '✍️ Nota Escrita';
+    resizeCanvas();
+  }
+}
+
+function closeNotebook() {
+  document.getElementById('notebookOverlay').classList.remove('active');
+  stopRecording();
+}
+
+// ==================== VOICE RECOGNITION (IMPROVED) ====================
+let recognition = null;
+let isRecording = false;
+let isPaused = false;
+let finalTranscript = '';
+let interimTranscript = '';
+
+function initVoice() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    showVoiceError('Tu navegador no soporta reconocimiento de voz. Usa Chrome en Android o Safari en iOS.');
+    return false;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = 'es-ES';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = function() {
+    isRecording = true;
+    isPaused = false;
+    updateVoiceStatus('listening', 'Escuchando... Habla ahora');
+    document.getElementById('recordBtn').classList.add('recording');
+    document.getElementById('recordBtn').textContent = '⏹️ Detener';
+    document.getElementById('pauseBtn').disabled = false;
+  };
+
+  recognition.onend = function() {
+    isRecording = false;
+    document.getElementById('recordBtn').classList.remove('recording');
+    document.getElementById('recordBtn').textContent = '🎙️ Grabar';
+    document.getElementById('pauseBtn').disabled = true;
+
+    if (!isPaused) {
+      updateVoiceStatus('idle', 'Grabación finalizada');
+    }
+  };
+
+  recognition.onresult = function(event) {
+    interimTranscript = '';
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += transcript + ' ';
+      } else {
+        interimTranscript += transcript;
+      }
+    }
+
+    updateVoiceDisplay();
+    updateWordCount();
+  };
+
+  recognition.onerror = function(event) {
+    console.error('Voice error:', event.error);
+    if (event.error === 'not-allowed') {
+      showVoiceError('Permite el acceso al micrófono en la configuración de tu navegador.');
+    } else if (event.error === 'no-speech') {
+      updateVoiceStatus('idle', 'No se detectó voz. Intenta de nuevo.');
+    } else if (event.error === 'network') {
+      showVoiceError('Error de red. Verifica tu conexión a internet.');
+    } else {
+      updateVoiceStatus('idle', 'Error: ' + event.error);
+    }
+    isRecording = false;
+    document.getElementById('recordBtn').classList.remove('recording');
+    document.getElementById('recordBtn').textContent = '🎙️ Grabar';
+  };
+
+  return true;
+}
+
+function toggleRecording() {
+  if (!recognition) {
+    if (!initVoice()) return;
+  }
+
+  if (isRecording) {
+    stopRecording();
+  } else {
+    startRecording();
+  }
+}
+
+function startRecording() {
+  if (!recognition) initVoice();
+  if (!recognition) return;
+
+  finalTranscript = '';
+  interimTranscript = '';
+
+  try {
+    recognition.start();
+  } catch(e) {
+    // Already started, restart
+    recognition.stop();
+    setTimeout(() => recognition.start(), 200);
+  }
+}
+
+function stopRecording() {
+  isPaused = false;
+  if (recognition && isRecording) {
+    try { recognition.stop(); } catch(e) {}
+  }
+}
+
+function pauseRecording() {
+  if (!isRecording) return;
+  isPaused = true;
+  if (recognition) {
+    try { recognition.stop(); } catch(e) {}
+  }
+  updateVoiceStatus('idle', 'Pausado. Toca Grabar para continuar.');
+  document.getElementById('pauseBtn').disabled = true;
+}
+
+function updateVoiceStatus(state, text) {
+  const indicator = document.getElementById('voiceIndicator');
+  const statusText = document.getElementById('voiceStatusText');
+
+  indicator.className = 'voice-indicator';
+  if (state === 'listening') indicator.classList.add('listening');
+  else if (state === 'processing') indicator.classList.add('processing');
+
+  statusText.textContent = text;
+}
+
+function showVoiceError(msg) {
+  updateVoiceStatus('idle', msg);
+  const area = document.getElementById('voiceTextArea');
+  area.innerHTML = '<div style="color:#c62828;padding:20px;text-align:center;">' + msg + '</div>';
+}
+
+function updateVoiceDisplay() {
+  const area = document.getElementById('voiceTextArea');
+
+  if (!finalTranscript && !interimTranscript) {
+    area.innerHTML = '<div class="voice-text-placeholder">Toca "Grabar" y empieza a hablar... El texto aparecerá aquí en tiempo real.</div>';
+    return;
+  }
+
+  let html = '';
+  if (finalTranscript) {
+    html += '<span class="final">' + escapeHtml(finalTranscript) + '</span>';
+  }
+  if (interimTranscript) {
+    html += '<span class="interim">' + escapeHtml(interimTranscript) + '</span>';
+  }
+
+  area.innerHTML = html;
+  area.scrollTop = area.scrollHeight;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function updateWordCount() {
+  const text = (finalTranscript + ' ' + interimTranscript).trim();
+  const count = text ? text.split(/\s+/).length : 0;
+  document.getElementById('wordCount').textContent = count + ' palabra' + (count !== 1 ? 's' : '');
+}
+
+function resetVoiceUI() {
+  finalTranscript = '';
+  interimTranscript = '';
+  updateVoiceDisplay();
+  updateWordCount();
+  updateVoiceStatus('idle', 'Listo para grabar');
+  document.getElementById('recordBtn').classList.remove('recording');
+  document.getElementById('recordBtn').textContent = '🎙️ Grabar';
+  document.getElementById('pauseBtn').disabled = true;
+}
+
+function clearVoiceText() {
+  finalTranscript = '';
+  interimTranscript = '';
+  updateVoiceDisplay();
+  updateWordCount();
+}
+
+function copyVoiceText() {
+  const text = (finalTranscript + ' ' + interimTranscript).trim();
+  if (!text) {
+    alert('No hay texto para copiar.');
+    return;
+  }
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      const original = btn.textContent;
+      btn.textContent = '✅ Copiado!';
+      setTimeout(() => btn.textContent = original, 1500);
+    });
+  } else {
+    // Fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = '✅ Copiado!';
+    setTimeout(() => btn.textContent = original, 1500);
+  }
+}
+
+function saveVoiceNote() {
+  const text = (finalTranscript + ' ' + interimTranscript).trim();
+  if (!text) {
+    alert('No hay texto para guardar. Graba algo primero.');
+    return;
+  }
+
+  const note = {
+    id: Date.now(),
+    type: 'voice',
+    topic: currentTopic,
+    time: currentTime,
+    text: text,
+    timestamp: new Date().toLocaleString('es-ES')
+  };
+
+  allNotes.push(note);
+  saveNotes();
+
+  // Visual feedback
+  const btn = event.target;
+  const original = btn.innerHTML;
+  btn.innerHTML = '✅ Guardado!';
+  btn.style.background = '#2e7d32';
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.style.background = '#4caf50';
+  }, 1500);
+
+  clearVoiceText();
+}
+
+// ==================== CANVAS DRAWING ====================
+const canvas = document.getElementById('writingCanvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+let currentColor = '#1b5e20';
+let currentSize = 3;
+let points = [];
+let strokes = [];
+let isEraser = false;
+
+function resizeCanvas() {
+  const maxWidth = Math.min(window.innerWidth - 30, 800);
+  const maxHeight = Math.min(window.innerHeight - 320, 450);
+  canvas.width = maxWidth;
+  canvas.height = maxHeight;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = currentColor;
+  ctx.lineWidth = currentSize;
+  drawGrid();
+}
+
+function drawGrid() {
+  ctx.save();
+  ctx.strokeStyle = '#e8e8e8';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i < canvas.width; i += 40) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+  }
+  for (let i = 0; i < canvas.height; i += 40) {
+    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+  }
+  ctx.restore();
+  ctx.strokeStyle = isEraser ? '#fffef0' : currentColor;
+  ctx.lineWidth = currentSize;
+}
+
+function getPoint(e) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return { x: clientX - rect.left, y: clientY - rect.top };
+}
+
+function startDrawing(e) {
+  e.preventDefault();
+  isDrawing = true;
+  const point = getPoint(e);
+  points = [point];
+
+  const stroke = {
+    color: isEraser ? '#fffef0' : currentColor,
+    width: currentSize,
+    points: [point]
+  };
+  strokes.push(stroke);
+
+  ctx.beginPath();
+  ctx.moveTo(point.x, point.y);
+  ctx.lineTo(point.x, point.y);
+  ctx.stroke();
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  e.preventDefault();
+  const point = getPoint(e);
+  points.push(point);
+  strokes[strokes.length - 1].points.push(point);
+
+  if (points.length > 2) {
+    const controlPoint = points[points.length - 2];
+    const endPoint = {
+      x: (points[points.length - 2].x + points[points.length - 1].x) / 2,
+      y: (points[points.length - 2].y + points[points.length - 1].y) / 2
+    };
+    ctx.beginPath();
+    ctx.moveTo(points[points.length - 3].x, points[points.length - 3].y);
+    ctx.quadraticCurveTo(controlPoint.x, controlPoint.y, endPoint.x, endPoint.y);
+    ctx.stroke();
+  } else {
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+  }
+}
+
+function stopDrawing(e) {
+  if (!isDrawing) return;
+  isDrawing = false;
+  points = [];
+}
+
+function setupCanvasEvents() {
+  canvas.addEventListener('touchstart', startDrawing, { passive: false });
+  canvas.addEventListener('touchmove', draw, { passive: false });
+  canvas.addEventListener('touchend', stopDrawing);
+  canvas.addEventListener('touchcancel', stopDrawing);
+  canvas.addEventListener('mousedown', startDrawing);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', stopDrawing);
+  canvas.addEventListener('mouseout', stopDrawing);
+  canvas.addEventListener('pointerdown', (e) => {
+    canvas.setPointerCapture(e.pointerId);
+    startDrawing(e);
+  });
+  canvas.addEventListener('pointermove', draw);
+  canvas.addEventListener('pointerup', stopDrawing);
+  canvas.addEventListener('pointercancel', stopDrawing);
+}
+
+function setColor(el) {
+  isEraser = false;
+  document.querySelectorAll('.color-dot').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  currentColor = el.dataset.color;
+  ctx.strokeStyle = currentColor;
+}
+
+function updateBrushSize(size) {
+  currentSize = parseInt(size);
+  ctx.lineWidth = currentSize;
+}
+
+function setEraser() {
+  isEraser = true;
+  currentColor = '#fffef0';
+  ctx.strokeStyle = currentColor;
+  document.querySelectorAll('.color-dot').forEach(c => c.classList.remove('active'));
+}
+
+function undoStroke() {
+  if (strokes.length === 0) return;
+  strokes.pop();
+  redrawCanvas();
+}
+
+function redrawCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGrid();
+
+  for (const stroke of strokes) {
+    ctx.strokeStyle = stroke.color;
+    ctx.lineWidth = stroke.width;
+    if (stroke.points.length < 2) continue;
+    ctx.beginPath();
+    ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+    for (let i = 1; i < stroke.points.length; i++) {
+      ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+    }
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = isEraser ? '#fffef0' : currentColor;
+  ctx.lineWidth = currentSize;
+}
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  strokes = [];
+  drawGrid();
+}
+
+function saveCanvasNote() {
+  if (strokes.length === 0) {
+    alert('Dibuja algo antes de guardar.');
+    return;
+  }
+
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCtx.fillStyle = '#fffef0';
+  tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+  for (const stroke of strokes) {
+    tempCtx.strokeStyle = stroke.color;
+    tempCtx.lineWidth = stroke.width;
+    tempCtx.lineCap = 'round';
+    tempCtx.lineJoin = 'round';
+    if (stroke.points.length < 2) continue;
+    tempCtx.beginPath();
+    tempCtx.moveTo(stroke.points[0].x, stroke.points[0].y);
+    for (let i = 1; i < stroke.points.length; i++) {
+      tempCtx.lineTo(stroke.points[i].x, stroke.points[i].y);
+    }
+    tempCtx.stroke();
+  }
+
+  const dataURL = tempCanvas.toDataURL('image/png');
+
+  const note = {
+    id: Date.now(),
+    type: 'draw',
+    topic: currentTopic,
+    time: currentTime,
+    image: dataURL,
+    timestamp: new Date().toLocaleString('es-ES')
+  };
+
+  allNotes.push(note);
+  saveNotes();
+
+  const btn = event.target;
+  const original = btn.innerHTML;
+  btn.innerHTML = '✅ Guardado!';
+  btn.style.background = '#2e7d32';
+  setTimeout(() => {
+    btn.innerHTML = original;
+    btn.style.background = '#4caf50';
+  }, 1500);
+
+  clearCanvas();
+}
+
+// ==================== SIDEBAR ====================
+function openSidebar() {
+  renderNotesList();
+  document.getElementById('notesSidebar').classList.add('active');
+  document.getElementById('sidebarOverlay').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('notesSidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+function renderNotesList(filterTopic) {
+  const list = document.getElementById('notesList');
+  let notesToShow = allNotes;
+  if (filterTopic) {
+    notesToShow = allNotes.filter(n => n.topic === filterTopic);
+  }
+
+  if (notesToShow.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📓</div>
+        <p>Aun no hay notas guardadas</p>
+        <p style="font-size:0.8rem;margin-top:8px;">Toca 🎤 o ✍️ en cualquier tema para agregar notas</p>
+      </div>`;
+    return;
+  }
+
+  const grouped = {};
+  notesToShow.forEach(note => {
+    if (!grouped[note.topic]) grouped[note.topic] = [];
+    grouped[note.topic].push(note);
+  });
+
+  let html = '';
+  for (const [topic, notes] of Object.entries(grouped)) {
+    html += `<div style="margin-bottom:15px;">`;
+    html += `<div style="font-size:0.75rem;color:#2e7d32;font-weight:700;margin-bottom:6px;padding:4px 8px;background:#e8f5e9;border-radius:8px;">${topic}</div>`;
+    for (const note of notes) {
+      html += `<div class="note-card">`;
+      html += `<div class="note-card-header">`;
+      html += `<span class="note-card-time">${note.timestamp}</span>`;
+      html += `<span class="note-card-topic">${note.type === 'voice' ? '🎤 Voz' : '✍️ Dibujo'}</span>`;
+      html += `</div>`;
+      if (note.type === 'voice') {
+        html += `<div class="note-card-text">${escapeHtml(note.text)}</div>`;
+      } else {
+        html += `<img class="note-card-img" src="${note.image}" alt="Nota dibujada">`;
+      }
+      html += `<div class="note-card-actions">`;
+      html += `<button class="card-btn btn-delete" onclick="deleteNote(${note.id})">🗑️ Eliminar</button>`;
+      html += `</div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+
+  list.innerHTML = html;
+}
+
+function viewNotes(btn) {
+  const item = btn.closest('.schedule-item');
+  const topic = item.dataset.topic;
+  openSidebar();
+  renderNotesList(topic);
+}
+
+function deleteNote(id) {
+  if (!confirm('¿Eliminar esta nota?')) return;
+  allNotes = allNotes.filter(n => n.id !== id);
+  saveNotes();
+  renderNotesList();
+}
+
+// ==================== INIT ====================
+setupCanvasEvents();
+loadNotes();
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('notebookOverlay').classList.contains('active') && currentMode === 'write') {
+    resizeCanvas();
+  }
+});
+
+// Prevent scroll on overlay
+document.getElementById('notebookOverlay').addEventListener('touchmove', (e) => {
+  if (e.target === canvas) e.preventDefault();
+}, { passive: false });
+</script>
+
+</body>
+</html>
