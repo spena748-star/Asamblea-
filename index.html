@@ -8,7 +8,6 @@
     <link rel="manifest" href="manifest.json">
     
     <style>
-        /* Variables por defecto (Tema Oscuro Slate) */
         :root {
             --bg: #0f172a;
             --card: #1e293b;
@@ -17,7 +16,6 @@
             --text-muted: #94a3b8;
         }
 
-        /* Variaciones de Temas */
         body.theme-amoled {
             --bg: #000000;
             --card: #121212;
@@ -81,7 +79,6 @@
             margin-top: 4px;
         }
 
-        /* Selector de Días (Pestañas) */
         .tabs-container {
             width: 100%;
             max-width: 500px;
@@ -101,7 +98,6 @@
             font-weight: 600;
             cursor: pointer;
             text-align: center;
-            transition: background-color 0.2s;
         }
 
         .tab.active {
@@ -133,7 +129,6 @@
             padding-bottom: 6px;
         }
 
-        /* Lista del Programa */
         .program-list {
             display: flex;
             flex-direction: column;
@@ -154,13 +149,9 @@
             min-width: 45px;
         }
 
-        .program-desc {
-            color: var(--text);
-        }
-
         textarea {
             width: 100%;
-            height: 140px;
+            height: 160px;
             background-color: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
@@ -177,9 +168,39 @@
             font-size: 0.75rem;
             color: var(--text-muted);
             margin-top: 6px;
+            margin-bottom: 12px;
         }
 
-        /* Configuración inferior */
+        /* Botones de acción y descarga */
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-download {
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-sheets {
+            background-color: #107c41;
+            color: white;
+        }
+
+        .btn-text {
+            background-color: #475569;
+            color: white;
+        }
+
         .theme-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -199,7 +220,7 @@
         }
 
         .btn-clear {
-            background-color: rgba(239, 68, 68, 0.2);
+            background-color: rgba(239, 68, 68, 0.15);
             color: #f87171;
             border: 1px solid #ef4444;
             padding: 10px;
@@ -207,7 +228,8 @@
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 12px;
+            font-size: 0.85rem;
         }
     </style>
 </head>
@@ -227,15 +249,22 @@
     <main>
         <div class="card">
             <h2 id="dayTitle">Viernes</h2>
-            <div class="program-list" id="programSchedule">
-                </div>
+            <div class="program-list" id="programSchedule"></div>
         </div>
 
+        <!-- Bloque de Notas Privadas y Descargas -->
         <div class="card">
             <h2 id="notesTitle">📝 Mis Notas (Viernes)</h2>
             <textarea id="editor" placeholder="Escribe tus apuntes o textos de hoy aquí..."></textarea>
             <div class="status" id="saveStatus">Guardado automáticamente en tu Pixel</div>
-            <button class="btn-clear" onclick="clearCurrentNotes()">Borrar notas de este día</button>
+            
+            <!-- Nuevas opciones de descarga -->
+            <div class="action-grid">
+                <button class="btn-download btn-sheets" onclick="downloadAsSheets()">📊 Google Sheets</button>
+                <button class="btn-download btn-text" onclick="downloadAsTXT()">📄 Archivo Notas</button>
+            </div>
+
+            <button class="btn-clear" onclick="clearCurrentNotes(false)">🗑️ Borrar notas sin descargar</button>
         </div>
 
         <div class="card">
@@ -250,7 +279,6 @@
     </main>
 
     <script>
-        // Datos del Folleto
         const programData = {
             viernes: {
                 title: 'Viernes: "Felices los que reconocen sus necesidades espirituales" (Mat. 5:3)',
@@ -260,12 +288,12 @@
                     { time: '9:40', desc: 'DISCURSO DEL PRESIDENTE: ¿Es realista la idea de ser felices para siempre? (Sal. 16:11)' },
                     { time: '10:10', desc: 'PRODUCCIÓN AUDIOVISUAL: Las buenas noticias según Jesús: Episodio 4 "Para eso he venido"' },
                     { time: '11:05', desc: 'Canción 17 y anuncios' },
-                    { time: '11:15', desc: 'SERIE DE DISCURSOS: ¡Las profecías sobre el Mesías se cumplieron! (Enfermedades, No discutirá, Comparaciones)' },
+                    { time: '11:15', desc: 'SERIE DE DISCURSOS: ¡Las profecías sobre el Mesías se cumplieron!' },
                     { time: '12:10', desc: 'Canción 14 e intermedio' },
                     { time: '1:35', desc: 'Video musical' },
                     { time: '1:45', desc: 'Canción 23' },
                     { time: '1:50', desc: '¿Qué enseñó Jesús sobre el sábado? (Mat. 12:1-14)' },
-                    { time: '2:10', desc: 'SERIE DE DISCURSOS: Imitemos a los que sirvieron a Jesús (Los apóstoles, Muchas mujeres)' },
+                    { time: '2:10', desc: 'SERIE DE DISCURSOS: Imitemos a los que sirvieron a Jesús' },
                     { time: '2:50', desc: 'Canción 76 y anuncios' },
                     { time: '3:00', desc: '"Felices los que lavan sus túnicas largas" (Apoc. 7:9, 10)' },
                     { time: '3:30', desc: 'Canción 155 y oración de conclusión' }
@@ -281,12 +309,12 @@
                     { time: '10:25', desc: 'Canción 89 y anuncios' },
                     { time: '10:35', desc: 'Cuatro enemigos de la felicidad (Luc. 6:24-26)' },
                     { time: '10:50', desc: '¿Puede ver el principio detrás de la ley? (Mat. 5:17-48)' },
-                    { time: '11:15', desc: 'SERIE DE DISCURSOS: Lecciones sobre la tierra en la que vivió Jesús (La sal, la luz, plantas y animales)' },
-                    { time: '11:40', desc: 'DISCURSO DE BAUTISMO: "Tu Padre, que mira en secreto, te lo pagará" (Mat. 6:6)' },
+                    { time: '11:15', desc: 'SERIE DE DISCURSOS: Lecciones sobre la tierra en la que vivió Jesús' },
+                    { time: '11:40', desc: 'DISCURSO DE BAUTISMO: "Tu Padre, que mira en secreto, te lo pagará"' },
                     { time: '12:10', desc: 'Canción 51 e intermedio' },
                     { time: '1:35', desc: 'Video musical' },
                     { time: '1:45', desc: 'Canción 125' },
-                    { time: '1:50', desc: 'SERIE DE DISCURSOS: Felices... (Las 9 de Mateo 5:3-12)' },
+                    { time: '1:50', desc: 'SERIE DE DISCURSOS: Felices... (Mateo 5:3-12)' },
                     { time: '3:20', desc: 'Canción 81 y anuncios' },
                     { time: '3:30', desc: '¿Por qué se angustian? (Mat. 6:19-33)' },
                     { time: '3:55', desc: '"Entren por la puerta angosta" (Mat. 7:1-5, 12-14)' },
@@ -298,7 +326,7 @@
                 schedule: [
                     { time: '9:20', desc: 'Video musical' },
                     { time: '9:30', desc: 'Canción 68 y oración' },
-                    { time: '9:40', desc: 'SERIE DE DISCURSOS: Lecciones de las comparaciones (Terrenos, Trigo y mala hierba, Mostaza, Levadura, Red)' },
+                    { time: '9:40', desc: 'SERIE DE DISCURSOS: Lecciones de las comparaciones' },
                     { time: '11:00', desc: 'Canción 64 y anuncios' },
                     { time: '11:10', desc: 'DISCURSO PÚBLICO: ¿Ha encontrado el tesoro? (Mat. 13:44-46)' },
                     { time: '11:40', desc: 'Resumen de La Atalaya' },
@@ -321,7 +349,6 @@
         
         let currentDay = 'viernes';
 
-        // Renderizar el listado de discursos en pantalla
         function renderSchedule(day) {
             programSchedule.innerHTML = '';
             programData[day].schedule.forEach(item => {
@@ -332,56 +359,97 @@
             });
         }
 
-        // Intercambiar de día y cargar notas asociadas
         function switchDay(day) {
-            // Guardar notas actuales antes de salir
             localStorage.setItem(`assembly_notes_2026_${currentDay}`, editor.value);
-
             currentDay = day;
             
-            // UI Pestañas
             document.querySelectorAll('.tab').forEach((tab, index) => {
                 const days = ['viernes', 'sabado', 'domingo'];
                 tab.classList.toggle('active', days[index] === day);
             });
 
-            // Actualizar Títulos e interfaz
             dayTitle.textContent = day.charAt(0).toUpperCase() + day.slice(1);
             notesTitle.textContent = `📝 Mis Notas (${day.charAt(0).toUpperCase() + day.slice(1)})`;
-            
             renderSchedule(day);
-            
-            // Cargar notas del nuevo día seleccionado
             editor.value = localStorage.getItem(`assembly_notes_2026_${day}`) || '';
             status.textContent = "Día seleccionado";
         }
 
-        // Auto-guardado al escribir
         editor.addEventListener('input', () => {
             localStorage.setItem(`assembly_notes_2026_${currentDay}`, editor.value);
             status.textContent = "Guardando...";
             setTimeout(() => { status.textContent = "Guardado automáticamente en tu Pixel"; }, 400);
         });
 
-        function clearCurrentNotes() {
-            if (confirm(`¿Eliminar las notas del día ${currentDay}?`)) {
+        // Función centralizada para borrar
+        function clearCurrentNotes(silent = false) {
+            if (silent || confirm(`¿Quieres borrar por completo las notas guardadas de hoy (${currentDay})?`)) {
                 editor.value = '';
                 localStorage.removeItem(`assembly_notes_2026_${currentDay}`);
-                status.textContent = "Notas eliminadas";
+                status.textContent = "Notas eliminadas de la app";
             }
         }
 
-        // Temas visuales
+        // --- SISTEMA DE DESCARGAS AUTOMATIZADO ---
+        
+        function postDownloadFlow() {
+            // Pregunta inmediatamente después de descargar si desea vaciar el editor
+            setTimeout(() => {
+                if (confirm("¡Descarga completada con éxito! ¿Deseas borrar las notas guardadas en la app ahora para limpiar el editor?")) {
+                    clearCurrentNotes(true);
+                }
+            }, 500);
+        }
+
+        function downloadAsSheets() {
+            const content = editor.value.trim();
+            if (!content) return alert("No hay notas escritas para exportar.");
+
+            // Crear formato CSV estructurado para Hojas de Cálculo
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // \uFEFF fuerza soporte de acentos en Excel/Sheets
+            csvContent += "Día,Notas Generales\n";
+            
+            // Limpiar saltos de línea conflictivos dentro de las celdas de Sheets
+            const cleanContent = content.replace(/"/g, '""');
+            csvContent += `"${currentDay.toUpperCase()}","${cleanContent}"\n`;
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Asamblea_2026_Notas_${currentDay}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            postDownloadFlow();
+        }
+
+        function downloadAsTXT() {
+            const content = editor.value.trim();
+            if (!content) return alert("No hay notas escritas para exportar.");
+
+            // Formato de texto estructurado
+            const fullText = `ASAMBLEA 2026: FELICES PARA SIEMPRE\nNOTAS DEL DÍA: ${currentDay.toUpperCase()}\n=====================================\n\n${content}`;
+            
+            const blob = new Blob([fullText], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `Notas_Asamblea_2026_${currentDay}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            postDownloadFlow();
+        }
+
         function setTheme(theme) {
             document.body.className = '';
             if (theme === 'amoled') document.body.classList.add('theme-amoled');
             if (theme === 'cyber') document.body.classList.add('theme-cyberpunk');
             if (theme === 'forest') document.body.classList.add('theme-forest');
-            
             localStorage.setItem('assembly_theme_choice', theme);
         }
 
-        // Carga inicial
         window.addEventListener('DOMContentLoaded', () => {
             setTheme(localStorage.getItem('assembly_theme_choice') || 'slate');
             renderSchedule('viernes');
