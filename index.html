@@ -171,7 +171,6 @@
             margin-bottom: 12px;
         }
 
-        /* Botones de acción y descarga */
         .action-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -252,15 +251,13 @@
             <div class="program-list" id="programSchedule"></div>
         </div>
 
-        <!-- Bloque de Notas Privadas y Descargas -->
         <div class="card">
             <h2 id="notesTitle">📝 Mis Notas (Viernes)</h2>
             <textarea id="editor" placeholder="Escribe tus apuntes o textos de hoy aquí..."></textarea>
             <div class="status" id="saveStatus">Guardado automáticamente en tu Pixel</div>
             
-            <!-- Nuevas opciones de descarga -->
             <div class="action-grid">
-                <button class="btn-download btn-sheets" onclick="downloadAsSheets()">📊 Google Sheets</button>
+                <button class="btn-download btn-sheets" onclick="downloadAsGoogleSheets()">📊 Google Sheets</button>
                 <button class="btn-download btn-text" onclick="downloadAsTXT()">📄 Archivo Notas</button>
             </div>
 
@@ -381,7 +378,6 @@
             setTimeout(() => { status.textContent = "Guardado automáticamente en tu Pixel"; }, 400);
         });
 
-        // Función centralizada para borrar
         function clearCurrentNotes(silent = false) {
             if (silent || confirm(`¿Quieres borrar por completo las notas guardadas de hoy (${currentDay})?`)) {
                 editor.value = '';
@@ -390,33 +386,31 @@
             }
         }
 
-        // --- SISTEMA DE DESCARGAS AUTOMATIZADO ---
-        
         function postDownloadFlow() {
-            // Pregunta inmediatamente después de descargar si desea vaciar el editor
             setTimeout(() => {
-                if (confirm("¡Descarga completada con éxito! ¿Deseas borrar las notas guardadas en la app ahora para limpiar el editor?")) {
+                if (confirm("¡Descarga completada! ¿Deseas limpiar el cuadro de texto y borrar estas notas de la app ahora?")) {
                     clearCurrentNotes(true);
                 }
             }, 500);
         }
 
-        function downloadAsSheets() {
+        // --- ENFOQUE DIRECTO PARA GOOGLE SHEETS EN ANDROID ---
+        function downloadAsGoogleSheets() {
             const content = editor.value.trim();
             if (!content) return alert("No hay notas escritas para exportar.");
 
-            // Crear formato CSV estructurado para Hojas de Cálculo
-            let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // \uFEFF fuerza soporte de acentos en Excel/Sheets
-            csvContent += "Día,Notas Generales\n";
+            // Estructura CSV estándar con cabecera limpia
+            let csvContent = "Dia,Notas Generales\n";
             
-            // Limpiar saltos de línea conflictivos dentro de las celdas de Sheets
-            const cleanContent = content.replace(/"/g, '""');
-            csvContent += `"${currentDay.toUpperCase()}","${cleanContent}"\n`;
+            // Reemplazar saltos de línea por espacios y asegurar comillas para que Sheets no se confunda
+            const cleanContent = content.replace(/\n/g, " ").replace(/"/g, '""');
+            csvContent += `${currentDay.toUpperCase()},"${cleanContent}"\n`;
 
-            const encodedUri = encodeURI(csvContent);
+            // Mime-type de texto/csv con codificación universal UTF-8
+            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: "text/csv;charset=utf-8;" });
             const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Asamblea_2026_Notas_${currentDay}.csv`);
+            link.href = URL.createObjectURL(blob);
+            link.download = `Asamblea_2026_${currentDay}.csv`; // La extensión CSV es la que abre Google Sheets directamente en Android
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -428,7 +422,6 @@
             const content = editor.value.trim();
             if (!content) return alert("No hay notas escritas para exportar.");
 
-            // Formato de texto estructurado
             const fullText = `ASAMBLEA 2026: FELICES PARA SIEMPRE\nNOTAS DEL DÍA: ${currentDay.toUpperCase()}\n=====================================\n\n${content}`;
             
             const blob = new Blob([fullText], { type: "text/plain;charset=utf-8" });
