@@ -171,33 +171,31 @@
             margin-bottom: 12px;
         }
 
-        .action-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .btn-download {
-            padding: 12px;
+        .btn-main {
+            padding: 14px;
             border-radius: 12px;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
             border: none;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+            transition: opacity 0.2s;
+            margin-bottom: 8px;
         }
 
-        .btn-sheets {
-            background-color: #107c41;
-            color: white;
+        .btn-download-single {
+            background-color: var(--accent);
+            color: #000;
         }
 
-        .btn-text {
-            background-color: #475569;
+        .btn-ai {
+            background-color: #4f46e5;
             color: white;
+            margin-bottom: 12px;
         }
 
         .theme-grid {
@@ -219,16 +217,14 @@
         }
 
         .btn-clear {
-            background-color: rgba(239, 68, 68, 0.15);
+            background-color: transparent;
             color: #f87171;
-            border: 1px solid #ef4444;
-            padding: 10px;
-            border-radius: 12px;
+            border: none;
+            padding: 6px;
             width: 100%;
-            font-weight: bold;
             cursor: pointer;
-            margin-top: 12px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -253,15 +249,16 @@
 
         <div class="card">
             <h2 id="notesTitle">📝 Mis Notas (Viernes)</h2>
-            <textarea id="editor" placeholder="Escribe tus apuntes o textos de hoy aquí..."></textarea>
+            <textarea id="editor" placeholder="Escribe tus apuntes de la asamblea aquí..."></textarea>
             <div class="status" id="saveStatus">Guardado automáticamente en tu Pixel</div>
             
-            <div class="action-grid">
-                <button class="btn-download btn-sheets" onclick="downloadAsGoogleSheets()">📊 Google Sheets</button>
-                <button class="btn-download btn-text" onclick="downloadAsTXT()">📄 Archivo Notas</button>
-            </div>
+            <!-- Botón de autocorrección inteligente interna -->
+            <button class="btn-main btn-ai" onclick="runInternalAutocorrect()">✨ Corregir Coherencia y Texto</button>
 
-            <button class="btn-clear" onclick="clearCurrentNotes(false)">🗑️ Borrar notas sin descargar</button>
+            <!-- Un solo botón unificado de descarga -->
+            <button class="btn-main btn-download-single" onclick="downloadAsTXT()">💾 Descargar Notas (.txt)</button>
+
+            <button class="btn-clear" onclick="clearCurrentNotes(false)">Borrar notas de la app sin descargar</button>
         </div>
 
         <div class="card">
@@ -338,6 +335,15 @@
             }
         };
 
+        // Diccionario local para corregir de forma inmediata palabras rotas comunes de teclado móvil
+        const autocorrectDictionary = {
+            "qe": "que", "q": "que", "k": "que", "tmb": "también", "tmbn": "también",
+            "pq": "porque", "xq": "porque", "d": "de", "x": "por", "asambla": "asamblea",
+            "felis": "feliz", "felises": "felices", "disurso": "discurso", "varsiculo": "versículo",
+            "catulo": "capítulo", "instrucion": "instrucción", "orasion": "oración",
+            "predicasion": "predicación", "cristian": "cristiano", "asistensia": "asistencia"
+        };
+
         const editor = document.getElementById('editor');
         const status = document.getElementById('saveStatus');
         const dayTitle = document.getElementById('dayTitle');
@@ -378,6 +384,43 @@
             setTimeout(() => { status.textContent = "Guardado automáticamente en tu Pixel"; }, 400);
         });
 
+        // --- AUTOCORRECTOR DE TRANCRIPCIÓN INTEGRADO ---
+        function runInternalAutocorrect() {
+            let text = editor.value;
+            if (!text.trim()) return alert("No hay texto para corregir.");
+
+            status.textContent = "Analizando coherencia...";
+
+            // 1. Corregir espaciados y saltos erróneos del teclado dictado por voz
+            text = text.replace(/[ ]+/g, " "); // Quita dobles espacios
+            text = text.replace(/\s*,\s*/g, ", "); // Acomoda comas pegadas
+            text = text.replace(/\s*\.\s*/g, ". "); // Acomoda puntos pegados
+
+            // 2. Procesar palabra por palabra usando el diccionario corrector de errores tipográficos
+            let words = text.split(" ");
+            let correctedWords = words.map(word => {
+                let cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+                if (autocorrectDictionary[cleanWord]) {
+                    // Mantener mayúscula si la original la tenía
+                    if (word[0] === word[0].toUpperCase()) {
+                        let corrected = autocorrectDictionary[cleanWord];
+                        return corrected.charAt(0).toUpperCase() + corrected.slice(1);
+                    }
+                    return autocorrectDictionary[cleanWord];
+                }
+                return word;
+            });
+
+            let finalText = correctedWords.join(" ");
+            
+            // 3. Forzar mayúscula después de cada punto final de oración
+            finalText = finalText.replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
+
+            editor.value = finalText;
+            localStorage.setItem(`assembly_notes_2026_${currentDay}`, finalText);
+            status.textContent = "✨ ¡Texto pulido y corregido con éxito!";
+        }
+
         function clearCurrentNotes(silent = false) {
             if (silent || confirm(`¿Quieres borrar por completo las notas guardadas de hoy (${currentDay})?`)) {
                 editor.value = '';
@@ -386,38 +429,7 @@
             }
         }
 
-        function postDownloadFlow() {
-            setTimeout(() => {
-                if (confirm("¡Descarga completada! ¿Deseas limpiar el cuadro de texto y borrar estas notas de la app ahora?")) {
-                    clearCurrentNotes(true);
-                }
-            }, 500);
-        }
-
-        // --- ENFOQUE DIRECTO PARA GOOGLE SHEETS EN ANDROID ---
-        function downloadAsGoogleSheets() {
-            const content = editor.value.trim();
-            if (!content) return alert("No hay notas escritas para exportar.");
-
-            // Estructura CSV estándar con cabecera limpia
-            let csvContent = "Dia,Notas Generales\n";
-            
-            // Reemplazar saltos de línea por espacios y asegurar comillas para que Sheets no se confunda
-            const cleanContent = content.replace(/\n/g, " ").replace(/"/g, '""');
-            csvContent += `${currentDay.toUpperCase()},"${cleanContent}"\n`;
-
-            // Mime-type de texto/csv con codificación universal UTF-8
-            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: "text/csv;charset=utf-8;" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `Asamblea_2026_${currentDay}.csv`; // La extensión CSV es la que abre Google Sheets directamente en Android
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            postDownloadFlow();
-        }
-
+        // --- UN SOLO BOTÓN DE DESCARGA (.TXT TOTALMENTE COMPATIBLE) ---
         function downloadAsTXT() {
             const content = editor.value.trim();
             if (!content) return alert("No hay notas escritas para exportar.");
@@ -432,7 +444,12 @@
             link.click();
             document.body.removeChild(link);
 
-            postDownloadFlow();
+            // Flujo automático de limpieza post-descarga
+            setTimeout(() => {
+                if (confirm("¡Descarga completada! ¿Deseas limpiar el cuadro de texto y borrar estas notas de la app ahora?")) {
+                    clearCurrentNotes(true);
+                }
+            }, 500);
         }
 
         function setTheme(theme) {
